@@ -1,0 +1,192 @@
+port: 7890
+socks-port: 7891
+allow-lan: true
+mode: rule
+log-level: info
+external-controller: :9090
+proxies:
+  - name: VPS01-trojan
+    type: trojan
+    server: fwq01.funnyfuzzy.net
+    port: 443
+    password: d292fe55-2b35-44cb-8894-b1db2e821f1a
+    sni: fwq01.funnyfuzzy.net
+    skip-cert-verify: false
+    tcp: true
+    tls: true
+  - name: VPS02-trojan
+    type: trojan
+    server: fwq02.funnyfuzzy.net
+    port: 443
+    password: 04e150d9-a499-4a23-b509-f85a47a95319
+    sni: fwq02.funnyfuzzy.net
+    skip-cert-verify: false
+    tcp: true
+    tls: true
+  - name: VPS03-trojan
+    type: trojan
+    server: fwq03.funnyfuzzy.net
+    port: 443
+    password: 87c950c6-5767-4620-8681-310d09e09f9b
+    sni: fwq03.funnyfuzzy.net
+    skip-cert-verify: false
+    tcp: true
+    tls: true
+proxy-groups:
+  - name: Global
+    type: fallback
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    proxies:
+      - "VPS01-trojan"
+      - "VPS02-trojan"
+      - "VPS03-trojan"
+rules:
+  - DOMAIN,shopline.com,DIRECT
+  - DOMAIN,shoplineapp.cn,DIRECT
+  - DOMAIN-KEYWORD,shopline,DIRECT
+  - DOMAIN,funnyfuzzy.com,Global
+  - DOMAIN,funnyfuzzy.co.uk,Global
+  - DOMAIN-KEYWORD,funnyfuzzy,Global
+  - DOMAIN-SUFFIX,shopify.com,Global
+  - DOMAIN-SUFFIX,shopify.hk,Global
+  - DOMAIN-SUFFIX,shopify.cn,Global
+  - DOMAIN-KEYWORD,shopify,Global
+  - DOMAIN-SUFFIX,myshopify.com,Global
+  - DOMAIN-SUFFIX,myshopify.hk,Global
+  - DOMAIN-SUFFIX,myshopify.cn,Global
+  - DOMAIN-KEYWORD,myshopify,Global
+  - DOMAIN-SUFFIX,shopifycloud.com,Global
+  - DOMAIN-KEYWORD,shopifycloud,Global
+  - DOMAIN-SUFFIX,dianxiaomi.com,DIRECT
+  - DOMAIN-KEYWORD,dianxiaomi,DIRECT
+  - DOMAIN-SUFFIX,paypal.com,Global
+  - DOMAIN-KEYWORD,paypal,Global
+  - DOMAIN-SUFFIX,stripe.com,Global
+  - DOMAIN-KEYWORD,stripe,Global
+  - DOMAIN-SUFFIX,airwallex.com,DIRECT
+  - DOMAIN-KEYWORD,airwallex,DIRECT
+  - DOMAIN-SUFFIX,bussiness.facebook.com,Global
+  - DOMAIN-SUFFIX,facebook.com,Global
+  - DOMAIN-KEYWORD,facebook,Global
+  - DOMAIN-SUFFIX,instagram.com,Global
+  - DOMAIN-KEYWORD,instagram,Global
+  - DOMAIN-SUFFIX,google.com,Global
+  - DOMAIN-SUFFIX,ads.google.com,Global
+  - DOMAIN-SUFFIX,google-analytics.com,Global
+  - DOMAIN-KEYWORD,google-analytics,Global
+  - DOMAIN-KEYWORD,google,Global
+  - DOMAIN-SUFFIX,bussiness.tiktok.com,Global
+  - DOMAIN-SUFFIX,ads.tiktok.com,Global
+  - DOMAIN-SUFFIX,tiktok.com,Global
+  - DOMAIN-KEYWORD,tiktok,Global
+  - DOMAIN-SUFFIX,twitter.com,Global
+  - DOMAIN-KEYWORD,twitter,Global
+  - DOMAIN-SUFFIX,yahoo.com,Global
+  - DOMAIN-KEYWORD,yahoo,Global
+  - DOMAIN-SUFFIX,whatapp.com,Global
+  - DOMAIN-KEYWORD,whatapp,Global
+  - DOMAIN-SUFFIX,wechat.com,Global
+  - DOMAIN-KEYWORD,wechat,Global
+  - DOMAIN-SUFFIX,feishu.cn,DIRECT
+  - DOMAIN-KEYWORD,feishu,DIRECT
+  - DOMAIN-SUFFIX,doc.qq.com,DIRECT
+  - DOMAIN-SUFFIX,qq.com,DIRECT
+  - DOMAIN-KEYWORD,qq,DIRECT
+  - DOMAIN-SUFFIX,meeting.tencent.com,DIRECT
+  - DOMAIN-SUFFIX,tencent.com,DIRECT
+  - DOMAIN-KEYWORD,tencent,DIRECT
+  - DOMAIN-SUFFIX,similarweb.com,Global
+  - DOMAIN-KEYWORD,similarweb,Global
+  - DOMAIN-SUFFIX,petco.com,Global
+  - DOMAIN-KEYWORD,petco,Global
+  - DOMAIN-SUFFIX,petsmart.com,Global
+  - DOMAIN-KEYWORD,petsmart,Global  
+  - DOMAIN-SUFFIX,judge.me,Global
+  - DOMAIN-KEYWORD,judge,Global
+  - DOMAIN-SUFFIX,grammarly.com,Global
+  - DOMAIN-KEYWORD,grammarly,Global
+  - DOMAIN-SUFFIX,klaviyo.com,Global
+  - DOMAIN-KEYWORD,klaviyo,Global
+  - DOMAIN-SUFFIX,ontrac.com,Global
+  - DOMAIN-SUFFIX,trustpilot.com,Global
+  - DOMAIN-SUFFIX,layouthub.com,Global
+  - DOMAIN-SUFFIX,omegatheme.com,Global
+  - DOMAIN-SUFFIX,pagefly.io,Global
+  - DOMAIN-SUFFIX,pluginseo.com,Global
+  - DOMAIN-SUFFIX,rivo.io,Global
+  - DOMAIN-SUFFIX,aftership.com,Global
+  - DOMAIN-SUFFIX,getwoohoo.com,Global
+  - DOMAIN-SUFFIX,fiverr.com,Global
+  - RULE-SET,connershua_clients,DIRECT
+  - RULE-SET,Global,Global
+  - RULE-SET,Unbreak,DIRECT
+  - RULE-SET,Advertising,DIRECT
+  - RULE-SET,Hijacking,REJECT
+  - RULE-SET,Streaming,Global
+  - RULE-SET,StreamingSE,Global
+  - RULE-SET,China,DIRECT
+  - RULE-SET,LocalAreaNetwork,DIRECT
+  - RULE-SET,ChinaIP,DIRECT
+  - MATCH,Global,Global
+rule-providers:
+  connershua_clients:
+    type: http
+    behavior: classical
+    url: https://api.dler.io/getruleset?type=6&url=aHR0cHM6Ly9naXN0LmdpdGh1YnVzZXJjb250ZW50LmNvbS90aW5keTIwMTMvMWZhMDg2NDBhOTA4OGFjODY1MmRiZDQwYzVkMjcxNWIvcmF3L2Nvbm5lcnNodWFfY2xpZW50cy5saXN0
+    path: ./providers/rule-provider_connershua_clients.yaml
+    interval: 86400
+  Unbreak:
+    type: http
+    behavior: classical
+    url: https://api.dler.io/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0RpdmluZUVuZ2luZS9Qcm9maWxlcy9tYXN0ZXIvU3VyZ2UvUnVsZXNldC9VbmJyZWFrLmxpc3Q
+    path: ./providers/rule-provider_Unbreak.yaml
+    interval: 86400
+  Advertising:
+    type: http
+    behavior: classical
+    url: https://api.dler.io/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0RpdmluZUVuZ2luZS9Qcm9maWxlcy9tYXN0ZXIvU3VyZ2UvUnVsZXNldC9HdWFyZC9BZHZlcnRpc2luZy5saXN0
+    path: ./providers/rule-provider_Advertising.yaml
+    interval: 86400
+  Hijacking:
+    type: http
+    behavior: classical
+    url: https://api.dler.io/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0RpdmluZUVuZ2luZS9Qcm9maWxlcy9tYXN0ZXIvU3VyZ2UvUnVsZXNldC9HdWFyZC9IaWphY2tpbmcubGlzdA
+    path: ./providers/rule-provider_Hijacking.yaml
+    interval: 86400
+  Streaming:
+    type: http
+    behavior: classical
+    url: https://api.dler.io/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0RpdmluZUVuZ2luZS9Qcm9maWxlcy9tYXN0ZXIvU3VyZ2UvUnVsZXNldC9TdHJlYW1pbmdNZWRpYS9TdHJlYW1pbmcubGlzdA
+    path: ./providers/rule-provider_Streaming.yaml
+    interval: 86400
+  StreamingSE:
+    type: http
+    behavior: classical
+    url: https://api.dler.io/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0RpdmluZUVuZ2luZS9Qcm9maWxlcy9tYXN0ZXIvU3VyZ2UvUnVsZXNldC9TdHJlYW1pbmdNZWRpYS9TdHJlYW1pbmdTRS5saXN0
+    path: ./providers/rule-provider_StreamingSE.yaml
+    interval: 86400
+  Global:
+    type: http
+    behavior: classical
+    url: https://api.dler.io/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0RpdmluZUVuZ2luZS9Qcm9maWxlcy9tYXN0ZXIvU3VyZ2UvUnVsZXNldC9HbG9iYWwubGlzdA
+    path: ./providers/rule-provider_Global.yaml
+    interval: 86400
+  China:
+    type: http
+    behavior: classical
+    url: https://api.dler.io/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0RpdmluZUVuZ2luZS9Qcm9maWxlcy9tYXN0ZXIvU3VyZ2UvUnVsZXNldC9DaGluYS5saXN0
+    path: ./providers/rule-provider_China.yaml
+    interval: 86400
+  LocalAreaNetwork:
+    type: http
+    behavior: classical
+    url: https://api.dler.io/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3RpbmR5MjAxMy9zdWJjb252ZXJ0ZXIvbWFzdGVyL2Jhc2UvcnVsZXMvTG9jYWxBcmVhTmV0d29yay5saXN0
+    path: ./providers/rule-provider_LocalAreaNetwork.yaml
+    interval: 86400
+  ChinaIP:
+    type: http
+    behavior: classical
+    url: https://api.dler.io/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0RpdmluZUVuZ2luZS9Qcm9maWxlcy9tYXN0ZXIvU3VyZ2UvUnVsZXNldC9FeHRyYS9DaGluYUlQLmxpc3Q
+    path: ./providers/rule-provider_ChinaIP.yaml
+    interval: 86400
