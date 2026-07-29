@@ -1,0 +1,24 @@
+{
+  "log": {
+    "level": "info"
+  },
+  "dns": {
+    "servers": [
+      {
+        "tag": "cloudflare",
+        "address": "https://1.1.1.1/dns-query"
+      }
+    ]
+  },
+  "outbounds": [
+    {
+      "type": "socks",
+      "tag": "decodo",
+      "server": "isp.decodo.com",
+      "server_port": 10003,
+      "version": "5",
+      "username": "user-spm0pm5kxm-country-us",
+      "password": "1_PzU6xa03wwaTKtsr"
+    }
+  ]
+}
